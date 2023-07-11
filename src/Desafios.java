@@ -1,5 +1,3 @@
-
-
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
@@ -197,18 +195,32 @@ public class Desafios {
     // Para cada linha de entrada deverá ser impressa uma linha de saída com a frase decifrada,
     // conforme a especificação acima.
     public void quarto(){
-        var s1 =  "VOD OWT SNEH HCNERF EGDIRTRAP A DNA SE";
-        int n = s1.length();
-        char[] resultante = new char[n];
-        int metade = n/2;
-        var strArr1 = s1.substring(0, metade).toCharArray();
-        var strArr2 = s1.substring(metade, n).toCharArray();
-        for (int i = strArr1.length - 1, j = 0, k = metade; i >= 0 ; i--, j++) {
-            resultante[j] = strArr1[i]; // preencher a metada inferior
-            resultante[k + j] = strArr2[i]; // preencher a metade superior
-        }
+        int n = this.lerEntrada("long").intValue();
+        for (int i = 0; i < n; i++) {
+            System.err.println("Digite com uma string:");
+            String s1 =  this.scanner.nextLine();
+            s1 = s1.toUpperCase();
+            
+            if(s1.length() < 2){
+                System.out.println("A entrada deve possuir mais que dois caracteres");
+                continue;
+            }else if(s1.length() > 100){
+                System.out.println("A entrada deve possuir menos que 100 caracteres");
+            }
 
-        System.out.println(resultante);
+
+            int len = s1.length();
+            char[] resultante = new char[len];
+            int metade = len/2;
+            char[] strArr1 = s1.substring(0, metade).toCharArray();
+            char[] strArr2 = s1.substring(metade, len).toCharArray();
+            // percorre o vetor na ordem inversa
+            for (int j = strArr1.length - 1, k = 0, m = metade; j >= 0 ; j--, k++) {
+                resultante[k] = strArr1[j]; // preencher a metada inferior
+                resultante[m + k] = strArr2[j]; // preencher a metade superior
+            }
+            System.out.println(resultante);
+        }
     }
     
 }
