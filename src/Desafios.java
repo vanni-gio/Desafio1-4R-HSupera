@@ -20,15 +20,24 @@ public class Desafios {
     }
 
 
-    private void inserirOrdenado(LinkedList<Long> list, Long element){
+    private void inserirOrdenadoPorCategoria(LinkedList<Long> list, Long element, boolean ispar){
         // procura o indice para inserir o elemento.
         int indexToAdd = 0;
         for (Long e : list) {
-            if(element <= e){
-                indexToAdd = list.indexOf(e);
-                break;
-            }else{
-                indexToAdd++;
+            if(ispar){
+                if(element <= e){
+                    indexToAdd = list.indexOf(e);
+                    break;
+                }else{
+                    indexToAdd++;
+                }
+            }else if(!ispar){
+                if(element >= e){
+                    indexToAdd = list.indexOf(e);
+                    break;
+                }else{
+                    indexToAdd++;
+                }
             }
         }
         list.add(indexToAdd, element);
@@ -39,8 +48,6 @@ public class Desafios {
         LinkedList<Long> listaPar = new LinkedList<Long>();
         LinkedList<Long> listaImpar = new LinkedList<Long>();
        
-
-        
         for (int i = 0; i < n; i++) {
             long entrada = this.lerEntrada();
             if(entrada < 0)
@@ -49,9 +56,9 @@ public class Desafios {
             var ispar = ((entrada % 2) == 0);
             
             if(ispar){ // se par
-                this.inserirOrdenado(listaPar, entrada);
+                this.inserirOrdenadoPorCategoria(listaPar, entrada, true);
             }else{ // se impar
-                this.inserirOrdenado(listaImpar, entrada);
+                this.inserirOrdenadoPorCategoria(listaImpar, entrada, false);
             }
         }
 
