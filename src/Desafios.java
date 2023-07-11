@@ -1,7 +1,9 @@
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 public class Desafios {
     private Scanner scanner;
     public Desafios(){
@@ -22,6 +24,9 @@ public class Desafios {
         return numero;
     }
 
+    private boolean isPar(Number num){
+        return num.intValue()%2 == 0;
+    }
 
     private void inserirOrdenadoPorCategoria(LinkedList<Long> list, Long element, boolean ispar){
         // procura o indice para inserir o elemento.
@@ -56,7 +61,7 @@ public class Desafios {
             if(entrada < 0)
                 throw new Exception("Valores negativos não são suportados");
 
-            var ispar = ((entrada % 2) == 0);
+            var ispar = this.isPar(entrada);
             
             if(ispar){ // se par
                 this.inserirOrdenadoPorCategoria(listaPar, entrada, true);
@@ -121,7 +126,18 @@ public class Desafios {
         System.out.println(contador);
     }
     public void quarto(){
+        var s1 =  "VOD OWT SNEH HCNERF EGDIRTRAP A DNA SE";
+        int n = s1.length();
+        char[] resultante = new char[n];
+        int metade = n/2;
+        var strArr1 = s1.substring(0, metade).toCharArray();
+        var strArr2 = s1.substring(metade, n).toCharArray();
+        for (int i = strArr1.length - 1, j = 0, k = metade; i >= 0 ; i--, j++) {
+            resultante[j] = strArr1[i]; // preencher a metada inferior
+            resultante[k + j] = strArr2[i]; // preencher a metade superior
+        }
 
+        System.out.println(resultante);
     }
     
 }
