@@ -1,22 +1,25 @@
 
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Scanner;
 public class Desafios {
     private Scanner scanner;
     public Desafios(){
-        this.scanner = new Scanner(System.in);
+        this.scanner = new Scanner(System.in).useLocale(Locale.US);
     }
 
     public void closeScanner(){
         this.scanner.close();
     }
 
-    private long lerEntrada(){
+    private Object lerEntrada(String tipo){
         System.out.printf("Informe um valor não negativo: ");
-        long valor = scanner.nextLong();
-        assert(valor >= 0):
-        "O valor não pode ser negativo";
-        return valor;
+        Number numero = null;
+        if(tipo.equals("long"))
+            numero = (Long) scanner.nextLong();
+        else if(tipo.equals("double"))
+            numero = (Double) scanner.nextDouble();
+        return numero;
     }
 
 
@@ -49,7 +52,7 @@ public class Desafios {
         LinkedList<Long> listaImpar = new LinkedList<Long>();
        
         for (int i = 0; i < n; i++) {
-            long entrada = this.lerEntrada();
+            long entrada = (Long) this.lerEntrada("long");
             if(entrada < 0)
                 throw new Exception("Valores negativos não são suportados");
 
@@ -71,6 +74,32 @@ public class Desafios {
 
     }
     public void segundo(){
+        var dinheiro = this.scanner.nextDouble();
+        double[] notasEmoedas = {100.0, 50.0, 20.0, 10.0, 5.0, 2.0, 1, 0.50, 0.25, 0.10, 0.05, 0.01};
+        int[] notasEmoedasNecessarias = new int[notasEmoedas.length];
+
+        for (int i = 0; i < notasEmoedas.length; i++) {
+            double nota = notasEmoedas[i];
+            double resto = dinheiro % notasEmoedas[i];
+            var resultado = (dinheiro - (resto))/nota;
+            dinheiro -= nota*resultado;
+            notasEmoedasNecessarias[i] = (int)resultado;
+        }
+
+        for (int i = 0; i < notasEmoedasNecessarias.length; i++) {
+            if(i == 0)
+                System.out.println("NOTAS:");
+                
+            if(i > 5)
+                System.out.printf("%d \t notas(s) \t de \t R$ %.2f\n", notasEmoedasNecessarias[i], notasEmoedas[i]);
+            else
+                System.out.printf("%d \t moeda(s) \t de \t R$ %.2f\n", notasEmoedasNecessarias[i], notasEmoedas[i]);
+
+            if(i == 5)
+                 System.out.println("MOEDAS:");
+        }
+
+
 
     }
     public void terceiro(){
