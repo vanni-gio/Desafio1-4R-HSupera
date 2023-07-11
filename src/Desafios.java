@@ -12,7 +12,7 @@ public class Desafios {
         this.scanner.close();
     }
 
-    private Object lerEntrada(String tipo){
+    private Number lerEntrada(String tipo){
         System.out.printf("Informe um valor não negativo: ");
         Number numero = null;
         if(tipo.equals("long"))
@@ -74,26 +74,26 @@ public class Desafios {
 
     }
     public void segundo(){
-        var dinheiro = this.scanner.nextDouble();
-        double[] notasEmoedas = {100.0, 50.0, 20.0, 10.0, 5.0, 2.0, 1, 0.50, 0.25, 0.10, 0.05, 0.01};
-        int[] notasEmoedasNecessarias = new int[notasEmoedas.length];
+        double dinheiro = this.lerEntrada("double").doubleValue();
+        double[] notasOuMoedas = {100.0, 50.0, 20.0, 10.0, 5.0, 2.0, 1, 0.50, 0.25, 0.10, 0.05, 0.01};
+        int[] notasOuMoedasNecessarias = new int[notasOuMoedas.length];
 
-        for (int i = 0; i < notasEmoedas.length; i++) {
-            double nota = notasEmoedas[i];
-            double resto = dinheiro % notasEmoedas[i];
-            var resultado = (dinheiro - (resto))/nota;
-            dinheiro -= nota*resultado;
-            notasEmoedasNecessarias[i] = (int)resultado;
+        for (int i = 0; i < notasOuMoedas.length; i++) {
+            double notaOuMoeda = notasOuMoedas[i];
+            double resto = dinheiro % notasOuMoedas[i];
+            var qtdNecessaria = (dinheiro - (resto))/notaOuMoeda;
+            dinheiro -= notaOuMoeda*qtdNecessaria;
+            notasOuMoedasNecessarias[i] = (int)qtdNecessaria;
         }
 
-        for (int i = 0; i < notasEmoedasNecessarias.length; i++) {
+        for (int i = 0; i < notasOuMoedasNecessarias.length; i++) {
             if(i == 0)
                 System.out.println("NOTAS:");
                 
             if(i > 5)
-                System.out.printf("%d \t notas(s) \t de \t R$ %.2f\n", notasEmoedasNecessarias[i], notasEmoedas[i]);
+                System.out.printf("%d \t notas(s) \t de \t R$ %.2f\n", notasOuMoedasNecessarias[i], notasOuMoedas[i]);
             else
-                System.out.printf("%d \t moeda(s) \t de \t R$ %.2f\n", notasEmoedasNecessarias[i], notasEmoedas[i]);
+                System.out.printf("%d \t moeda(s) \t de \t R$ %.2f\n", notasOuMoedasNecessarias[i], notasOuMoedas[i]);
 
             if(i == 5)
                  System.out.println("MOEDAS:");
@@ -103,7 +103,22 @@ public class Desafios {
 
     }
     public void terceiro(){
-
+        int n = this.lerEntrada("long").intValue();
+        int k = this.lerEntrada("long").intValue();
+        int[] arr = new int[n];
+        int contador = 0;
+        for (int i = 0; i < n; i++) {
+            arr[i] = this.lerEntrada("long").intValue();
+            int aux = 0;
+            while (aux < i) {
+                if(arr[i] - arr[aux] == k)
+                    contador++;
+                else if(arr[aux] - arr[i] == k)
+                    contador++;
+                aux++;
+            }
+        }
+        System.out.println(contador);
     }
     public void quarto(){
 
