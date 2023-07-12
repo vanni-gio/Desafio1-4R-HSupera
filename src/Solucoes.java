@@ -6,10 +6,10 @@ import Desafio4.Solucao4;
 import Desafio3.Solucao3;
 import Desafio2.Solucao2;
 // classe que representa o conjunto de desafios propostos pelo RH Supera
-public class Desafios {
+public class Solucoes {
     private Scanner scanner;
 
-    public Desafios(){
+    public Solucoes(){
         this.scanner = new Scanner(System.in).useLocale(Locale.US);
     }
 
