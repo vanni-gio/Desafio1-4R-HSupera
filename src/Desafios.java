@@ -1,9 +1,14 @@
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Scanner;
 
+import Desafio1.Solucao1;
+import Desafio4.Solucao4;
+import Desafio3.Solucao3;
+import Desafio2.Solucao2;
+// classe que representa o conjunto de desafios propostos pelo RH Supera
 public class Desafios {
     private Scanner scanner;
+
     public Desafios(){
         this.scanner = new Scanner(System.in).useLocale(Locale.US);
     }
@@ -12,42 +17,20 @@ public class Desafios {
         this.scanner.close();
     }
 
-    private Number lerEntrada(String tipo){
+    // faz a leitura do teclado. Pode ler dos tipos long e double.
+    private Number lerEntrada(String tipo) throws Exception{
         System.out.printf("Informe um valor não negativo: ");
         Number numero = null;
         if(tipo.equals("long"))
             numero = (Long) scanner.nextLong();
         else if(tipo.equals("double"))
             numero = (Double) scanner.nextDouble();
+        if(numero.intValue() < 0)
+            throw new Exception("Valores negativos não são suportados");
         return numero;
     }
 
-    private boolean isPar(Number num){
-        return num.intValue()%2 == 0;
-    }
 
-    private void inserirOrdenadoPorCategoria(LinkedList<Long> list, Long element, boolean ispar){
-        // procura o indice para inserir o elemento.
-        int indexToAdd = 0;
-        for (Long e : list) {
-            if(ispar){
-                if(element <= e){
-                    indexToAdd = list.indexOf(e);
-                    break;
-                }else{
-                    indexToAdd++;
-                }
-            }else if(!ispar){
-                if(element >= e){
-                    indexToAdd = list.indexOf(e);
-                    break;
-                }else{
-                    indexToAdd++;
-                }
-            }
-        }
-        list.add(indexToAdd, element);
-    }
     // Considerando a entrada de valores inteiros não negativos, ordene estes valores segundo
     //    o seguinte critério:
     //      • Primeiro os Pares
@@ -61,31 +44,20 @@ public class Desafios {
     // Saída
     // Apresente todos os valores lidos na entrada segundo a ordem apresentada acima. Cada
     // número deve ser impresso em uma linha, conforme exemplo abaixo.
-    public void primeiro () throws Exception{
+    public void primeiro () {
         int n = scanner.nextInt(); // lendo o número de iterações totais.
-        LinkedList<Long> listaPar = new LinkedList<Long>();
-        LinkedList<Long> listaImpar = new LinkedList<Long>();
-       
+        long[] entradas = new long[n];
         for (int i = 0; i < n; i++) {
-            long entrada = (Long) this.lerEntrada("long");
-            if(entrada < 0)
-                throw new Exception("Valores negativos não são suportados");
-
-            var ispar = this.isPar(entrada);
-            
-            if(ispar){ // se par
-                this.inserirOrdenadoPorCategoria(listaPar, entrada, true);
-            }else{ // se impar
-                this.inserirOrdenadoPorCategoria(listaImpar, entrada, false);
+            try {
+                entradas[i] = (Long) this.lerEntrada("long");
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
-        }
 
-        listaPar.addAll(listaImpar); //concatena as duas listas
-        
-        //imprime a lista
-        listaPar.forEach((e) -> {
-            System.out.println(e);
-        });
+
+        }
+        new Solucao1(entradas);
 
     }
 
@@ -100,32 +72,15 @@ public class Desafios {
     // Imprima a quantidade mínima de notas e moedas necessárias para trocar o valor inicial,
     // conforme exemplo fornecido.
     public void segundo(){
-        double dinheiro = this.lerEntrada("double").doubleValue();
-        double[] notasOuMoedas = {100.0, 50.0, 20.0, 10.0, 5.0, 2.0, 1, 0.50, 0.25, 0.10, 0.05, 0.01};
-        int[] notasOuMoedasNecessarias = new int[notasOuMoedas.length];
-
-        for (int i = 0; i < notasOuMoedas.length; i++) {
-            double notaOuMoeda = notasOuMoedas[i];
-            double resto = dinheiro % notasOuMoedas[i];
-            var qtdNecessaria = (dinheiro - (resto))/notaOuMoeda;
-            dinheiro -= notaOuMoeda*qtdNecessaria;
-            notasOuMoedasNecessarias[i] = (int)qtdNecessaria;
+        double dinheiro = 0;
+        try {
+            dinheiro = this.lerEntrada("double").doubleValue();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
 
-        for (int i = 0; i < notasOuMoedasNecessarias.length; i++) {
-            if(i == 0)
-                System.out.println("NOTAS:");
-                
-            if(i > 5)
-                System.out.printf("%d \t notas(s) \t de \t R$ %.2f\n", notasOuMoedasNecessarias[i], notasOuMoedas[i]);
-            else
-                System.out.printf("%d \t moeda(s) \t de \t R$ %.2f\n", notasOuMoedasNecessarias[i], notasOuMoedas[i]);
-
-            if(i == 5)
-                 System.out.println("MOEDAS:");
-        }
-
-
+        new Solucao2(dinheiro);
 
     }
 
@@ -150,22 +105,25 @@ public class Desafios {
     // alvo.
     // Seu código deve conter um array de inteiros, de tamanho n.
     public void terceiro(){
-        int n = this.lerEntrada("long").intValue();
-        int k = this.lerEntrada("long").intValue();
+        int n = 0, k = 0;
+        try {
+            n = this.lerEntrada("long").intValue();
+            k = this.lerEntrada("long").intValue();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         int[] arr = new int[n];
-        int contador = 0;
         for (int i = 0; i < n; i++) {
-            arr[i] = this.lerEntrada("long").intValue();
-            int aux = 0;
-            while (aux < i) {
-                if(arr[i] - arr[aux] == k)
-                    contador++;
-                else if(arr[aux] - arr[i] == k)
-                    contador++;
-                aux++;
+            try {
+                arr[i] = this.lerEntrada("long").intValue();
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
-        System.out.println(contador);
+        new Solucao3(n, k, arr);
+            
     }
 
 
@@ -195,32 +153,30 @@ public class Desafios {
     // Para cada linha de entrada deverá ser impressa uma linha de saída com a frase decifrada,
     // conforme a especificação acima.
     public void quarto(){
-        int n = this.lerEntrada("long").intValue();
+        int n = 0;
+        try {
+            n = this.lerEntrada("long").intValue();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        this.scanner.nextLine(); // remover o enter da entrada anterior
+
+        String[] arr = new String[n];
         for (int i = 0; i < n; i++) {
             System.err.println("Digite com uma string:");
             String s1 =  this.scanner.nextLine();
-            s1 = s1.toUpperCase();
-            
+            arr[i] = s1;
+
             if(s1.length() < 2){
                 System.out.println("A entrada deve possuir mais que dois caracteres");
                 continue;
             }else if(s1.length() > 100){
                 System.out.println("A entrada deve possuir menos que 100 caracteres");
             }
-
-
-            int len = s1.length();
-            char[] resultante = new char[len];
-            int metade = len/2;
-            char[] strArr1 = s1.substring(0, metade).toCharArray();
-            char[] strArr2 = s1.substring(metade, len).toCharArray();
-            // percorre o vetor na ordem inversa
-            for (int j = strArr1.length - 1, k = 0, m = metade; j >= 0 ; j--, k++) {
-                resultante[k] = strArr1[j]; // preencher a metada inferior
-                resultante[m + k] = strArr2[j]; // preencher a metade superior
-            }
-            System.out.println(resultante);
         }
+
+        new Solucao4(arr); 
     }
     
 }
